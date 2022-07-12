@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -10,7 +10,11 @@ import {
 import { Colors } from "../../constants/colors";
 import OutlinedButton from "../UI/OutlinedButton";
 
-const ImagePicker = () => {
+interface ImagePickerProps {
+  onTakeImage: Function;
+}
+
+const ImagePicker = ({ onTakeImage }: ImagePickerProps) => {
   const [pickedImage, setPickedImage] = useState("");
   const [cameraPermissionInfo, requestPermissionInfo] = useCameraPermissions();
 
@@ -43,6 +47,7 @@ const ImagePicker = () => {
     if (!image.cancelled) {
       const { uri } = image as ImageInfo;
       setPickedImage(uri);
+      onTakeImage(uri);
     }
   };
 
@@ -54,8 +59,7 @@ const ImagePicker = () => {
 
   return (
     <View>
-      <View>{imagePreview}</View>
-      {/* <Button title="Take Image" onPress={takeImageHandler} /> */}
+      <View style={styles.imagePreview}>{imagePreview}</View>
       <OutlinedButton icon="camera" onPress={takeImageHandler}>
         Take Image
       </OutlinedButton>
@@ -72,6 +76,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    overflow: "hidden",
   },
   image: {
     width: "100%",
