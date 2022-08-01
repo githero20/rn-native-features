@@ -115,9 +115,6 @@ function LocationPicker({ onPickLocation }: LocationPickerProps) {
     );
   }
 
-  // const API_KEY = process.env["GOOGLE_API_KEY"];
-  // console.log(API_KEY);
-
   return (
     <View>
       <View style={styles.mapPreview}>{locationPreview}</View>
